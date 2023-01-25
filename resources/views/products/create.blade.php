@@ -4,7 +4,8 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Create Product</h1>
     </div>
-    <form action="{{ route('product.store') }}" method="post" autocomplete="off" spellcheck="false">
+    <form action="{{ route('product.store') }}" method="post"  enctype="multipart/form-data">
+        @csrf
         <section>
             <div class="row">
                 <div class="col-md-6">
@@ -45,8 +46,8 @@
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"><h6
                                 class="m-0 font-weight-bold text-primary">Media</h6></div>
                         <div class="card-body border">
-                            <div id="file-upload" class="dropzone dz-clickable">
-                                <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+                            <div  class="dropzone dz-clickable">
+                                <div class="dz-default dz-message"><input type="file" name="product_image[]" id="product_image" multiple  placeholder="Drop files here to upload"></div>
                             </div>
                         </div>
                     </div>
@@ -87,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-lg btn-primary">Save</button>
+            <button type="submit" class="btn btn-lg btn-primary">Save</button>
             <button type="button" class="btn btn-secondary btn-lg">Cancel</button>
         </section>
     </form>

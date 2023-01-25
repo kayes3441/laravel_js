@@ -1,2 +1,72 @@
-@extends('layouts.app')
 
+<div class="card-body">
+    <div class="table-response">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Variant</th>
+                <th width="150px">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach($products as $key => $product)
+                <tr>
+                    <td>{{$key+1}}</td>
+                    <td>{{$product->title}} <br>{{ \Carbon\Carbon::parse($product->created_at)->format('j F, Y') }}</td>
+                    <td>{{substr($product->description, 0,  30)}}</td>
+                    <td>
+
+                        <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
+
+                            @foreach($product->product_variant_price as $variant_price)
+                                <dt class="col-sm-3 pb-0">
+                                    @if($variant_price->product_variant_one != null)
+                                        {{product_variant_one($variant_price->product_variant_one)->variant}}/
+                                    @endif
+                                    @if($variant_price->product_variant_two != null)
+                                        {{product_variant_two($variant_price->product_variant_two)->variant}}/
+                                    @endif
+                                    @if($variant_price->product_variant_three != null)
+                                        {{product_variant_three($variant_price->product_variant_three)->variant}}/
+                                    @endif
+                                    {{--                            SM/ Red/ V-Nick--}}
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-4 pb-0">Price : {{ number_format($variant_price->price , 2) }}</dt>
+                                        <dd class="col-sm-8 pb-0">InStock : {{ number_format($variant_price->stock,2) }}</dd>
+                                    </dl>
+                                </dd>
+                            @endforeach
+                        </dl>
+                        <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more</button>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="{{ route('product.edit', 1) }}" class="btn btn-success">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<div class="card-footer">
+    <div class="row justify-content-between">
+        <div class="col-md-6">
+{{--            <p>Showing 1 to {{count($products)}} out of {{$products->total()}}</p>--}}
+        </div>
+        <div class="col-md-6">
+            {!! $products->links() !!}
+        </div>
+    </div>
+</div>
